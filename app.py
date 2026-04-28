@@ -17,7 +17,7 @@ st.title("Loan Approval Prediction App")
 fico = st.number_input("FICO Score", 300, 850, 650)
 income = st.number_input("Monthly Income", 1, 10000, 5000)
 loan = st.number_input("Requested Loan Amount", 1000, 100000, 20000)
-housing = st.number_input("Housing Payment", 0, 5000, 1500)
+housing = st.number_input("Housing Payment (Monthly)", 0, 5000, 1500)
 
 if st.button("Predict"):
 
