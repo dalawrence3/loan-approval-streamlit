@@ -21,8 +21,8 @@ housing = st.number_input("Housing Payment (Monthly) ($)", 0, 50000, 1500)
 
 
 employment_status = st.selectbox("Employment Status", [
-    "full_time",
-    "part_time",
+    "full time",
+    "part time",
     "unemployed"
 ])
 
