@@ -49,12 +49,18 @@ if st.button("Predict"):
     input_df["Loan_Gap"] = input_df["Requested_Loan_Amount"] - input_df["Granted_Loan_Amount"]
 
     # Encode + align
-    input_encoded = pd.get_dummies(input_df)
+input_encoded = pd.get_dummies(input_df)
 
-    # Ensure all expected columns exist
-    for col in features:
-        if col not in input_encoded.columns:
-            input_encoded[col] = 0
+# Ensure all expected columns exist
+for col in features:
+    if col not in input_encoded.columns:
+        input_encoded[col] = 0
+
+# Reorder columns (OUTSIDE the loop)
+input_encoded = input_encoded[features]
+
+# Scale (OUTSIDE the loop)
+input_scaled = scaler.transform(input_encoded)
 
 # Reorder columns
 input_encoded = input_encoded[features]
