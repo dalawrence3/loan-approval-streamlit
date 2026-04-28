@@ -16,7 +16,6 @@ st.write("Enter applicant information below to estimate approval probability.")
 fico = st.number_input("FICO Score", 300, 850, 650)
 income = st.number_input("Monthly Gross Income ($)", 1, 20000, 5000)
 requested_loan = st.number_input("Requested Loan Amount ($)", 1000, 2500000, 20000)
-granted_loan = st.number_input("Granted Loan Amount ($)", 1000, 2000000, 20000)
 housing = st.number_input("Housing Payment (Monthly) ($)", 0, 50000, 1500)
 
 
@@ -33,7 +32,6 @@ lender = st.selectbox("Select Lender", ["A", "B", "C"])
 if st.button("Predict"):
 
     input_df = pd.DataFrame({
-        "Granted_Loan_Amount": [granted_loan],
         "Requested_Loan_Amount": [requested_loan],
         "FICO_score": [fico],
         "Employment_Status": [employment_status],
