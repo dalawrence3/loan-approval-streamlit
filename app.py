@@ -51,13 +51,13 @@ if st.button("Predict"):
     # Encode + align
     input_encoded = pd.get_dummies(input_df)
 
-    # Ensure ALL expected columns exist
-    for col in features:
+# Ensure all expected columns exist
+for col in features:
     if col not in input_encoded.columns:
         input_encoded[col] = 0
 
-    # Reorder columns
-    input_encoded = input_encoded[features]
+# Reorder columns
+input_encoded = input_encoded[features]
 
     # Scale
     input_scaled = scaler.transform(input_encoded)
