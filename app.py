@@ -19,14 +19,6 @@ requested_loan = st.number_input("Requested Loan Amount ($)", 1000, 2500000, 200
 granted_loan = st.number_input("Granted Loan Amount ($)", 1000, 2000000, 20000)
 housing = st.number_input("Housing Payment (Monthly) ($)", 0, 50000, 1500)
 
-reason = st.selectbox("Loan Reason", [
-    "debt_conslidation",
-    "credit_card_refinancing",
-    "home_improvement",
-    "major_purchase",
-    "cover_an_unexpected_cost",
-    "other"
-])
 
 employment_status = st.selectbox("Employment Status", [
     "full_time",
@@ -34,34 +26,17 @@ employment_status = st.selectbox("Employment Status", [
     "unemployed"
 ])
 
-employment_sector = st.selectbox("Employment Sector", [
-    "information_technology",
-    "financials",
-    "health_care",
-    "industrials",
-    "real_estate",
-    "materials",
-    "utilities",
-    "energy",
-    "consumer_staples",
-    "communication_services",
-    "consumer_discretionary",
-    "Unknown"
-])
-
-bankrupt = st.selectbox("Ever Bankrupt or Foreclosed?", [0, 1])
+bankrupt = st.selectbox("Ever Bankrupt or Foreclosed?", ["No", "Yes"])
 
 lender = st.selectbox("Select Lender", ["A", "B", "C"])
 
 if st.button("Predict"):
 
     input_df = pd.DataFrame({
-        "Reason": [reason],
         "Granted_Loan_Amount": [granted_loan],
         "Requested_Loan_Amount": [requested_loan],
         "FICO_score": [fico],
         "Employment_Status": [employment_status],
-        "Employment_Sector": [employment_sector],
         "Monthly_Gross_Income": [income],
         "Monthly_Housing_Payment": [housing],
         "Ever_Bankrupt_or_Foreclose": [bankrupt],
