@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import pickle
 
-# Load model
 with open("model.pkl", "rb") as file:
     model_data = pickle.load(file)
 
@@ -12,33 +11,82 @@ scaler = model_data["scaler"]
 features = model_data["features"]
 
 st.title("Loan Approval Prediction App")
+st.write("Enter applicant information below to estimate approval probability.")
 
-# User inputs
 fico = st.number_input("FICO Score", 300, 850, 650)
-income = st.number_input("Monthly Income", 1, 10000, 5000)
-loan = st.number_input("Requested Loan Amount", 1000, 100000, 20000)
-housing = st.number_input("Housing Payment (Monthly)", 0, 5000, 1500)
+income = st.number_input("Monthly Gross Income ($)", 1, 20000, 5000)
+requested_loan = st.number_input("Requested Loan Amount ($)", 1000, 2500000, 20000)
+granted_loan = st.number_input("Granted Loan Amount ($)", 1000, 2000000, 20000)
+housing = st.number_input("Housing Payment (Monthly) ($)", 0, 50000, 1500)
+
+reason = st.selectbox("Loan Reason", [
+    "debt_conslidation",
+    "credit_card_refinancing",
+    "home_improvement",
+    "major_purchase",
+    "cover_an_unexpected_cost",
+    "other"
+])
+
+employment_status = st.selectbox("Employment Status", [
+    "full_time",
+    "part_time",
+    "unemployed"
+])
+
+employment_sector = st.selectbox("Employment Sector", [
+    "information_technology",
+    "financials",
+    "health_care",
+    "industrials",
+    "real_estate",
+    "materials",
+    "utilities",
+    "energy",
+    "consumer_staples",
+    "communication_services",
+    "consumer_discretionary",
+    "Unknown"
+])
+
+bankrupt = st.selectbox("Ever Bankrupt or Foreclosed?", [0, 1])
+
+lender = st.selectbox("Select Lender", ["A", "B", "C"])
 
 if st.button("Predict"):
 
     input_df = pd.DataFrame({
+        "Reason": [reason],
+        "Granted_Loan_Amount": [granted_loan],
+        "Requested_Loan_Amount": [requested_loan],
         "FICO_score": [fico],
+        "Employment_Status": [employment_status],
+        "Employment_Sector": [employment_sector],
         "Monthly_Gross_Income": [income],
-        "Requested_Loan_Amount": [loan],
-        "Monthly_Housing_Payment": [housing]
+        "Monthly_Housing_Payment": [housing],
+        "Ever_Bankrupt_or_Foreclose": [bankrupt],
+        "Lender": [lender]
     })
 
-    # Create engineered features
     input_df["Loan_to_Income"] = input_df["Requested_Loan_Amount"] / input_df["Monthly_Gross_Income"]
     input_df["Payment_to_Income"] = input_df["Monthly_Housing_Payment"] / input_df["Monthly_Gross_Income"]
+    input_df["Loan_Gap"] = input_df["Requested_Loan_Amount"] - input_df["Granted_Loan_Amount"]
 
-    # Align with training features
-    input_df = input_df.reindex(columns=features, fill_value=0)
+    input_encoded = pd.get_dummies(input_df, drop_first=True)
+    input_encoded = input_encoded.reindex(columns=features, fill_value=0)
 
-    # Scale
-    input_scaled = scaler.transform(input_df)
+    input_scaled = scaler.transform(input_encoded)
 
-    # Predict
     prob = model.predict_proba(input_scaled)[0][1]
 
+    threshold = 0.65
+    prediction = int(prob >= threshold)
+
+    st.subheader("Prediction Result")
+    st.write(f"Selected Lender: {lender}")
     st.write(f"Approval Probability: {prob:.2%}")
+
+    if prediction == 1:
+        st.success("Predicted: Approved")
+    else:
+        st.error("Predicted: Not Approved")
