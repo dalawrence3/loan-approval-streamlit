@@ -14,6 +14,8 @@ Use the deployed application to enter applicant information and generate a loan 
 
 **[Launch the Loan Approval Application →](https://loan-approval-app-tbuapahz8eqoxnk4cvjwdv.streamlit.app/)**
 
+### Application Review
+![Loan Decision Dashboard](assets/loan-decision-dashboard.png)
 ---
 
 ## Model Development Notebook
@@ -81,4 +83,22 @@ Approval Probability
 SHAP Explanation
         ↓
 Decision Drivers & Contribution Analysis
+```
+---
 
+## Explainable AI & Model Contributions
+
+The application uses SHAP to provide applicant-level explanations for each model prediction.
+
+Rather than showing only an approval probability, the dashboard identifies the factors that most strongly influenced the result and separates them into:
+
+- factors supporting approval
+- factors working against approval
+
+The contribution visualization shows the direction and relative strength of each major model driver for the individual applicant, translating the model's output into a more interpretable business-facing analysis.
+
+### Model Contribution Analysis
+
+![Model Contribution Analysis](assets/model-contribution-analysis.png)
+
+The underlying SHAP calculation evaluates the complete trained feature set, while the primary visualization focuses on applicant-provided and directly derived features that are most meaningful to the user.
