@@ -267,13 +267,9 @@ if st.button("Analyze Application", type="primary"):
                 st.caption("No factors materially worked against approval for this applicant.")
 
         st.caption(
-            "The model considers both directly entered applicant details and a few "
-            "derived ratios (e.g. loan-to-income); both kinds may appear above. Loan "
-            "Purpose and Employment Sector are not shown here because this application "
-            "does not collect them from the applicant — the exploratory analysis behind "
-            "this model found they added little distinction versus stronger predictors "
-            "like FICO score, lender, and employment status. See the Technical Model "
-            "Explanation below for their full contribution to the underlying model."
+    "Model explanations reflect both applicant inputs and derived financial ratios. "
+    "Less informative categorical fields are excluded from the primary view but "
+    "remain part of the underlying model."
         )
 
         st.subheader("Model Contribution Analysis")
