@@ -14,7 +14,7 @@ Use the deployed application to enter applicant information and generate a loan 
 
 **[Launch the Loan Approval Application →](https://loan-approval-app-tbuapahz8eqoxnk4cvjwdv.streamlit.app/)**
 
-### Application Review
+### Application Preview
 ![Loan Decision Dashboard](assets/loan-decision-dashboard.png)
 ---
 
